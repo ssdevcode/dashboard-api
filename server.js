@@ -10,6 +10,10 @@ const PORT = process.env.PORT;
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("Dashboard API Running");
+});
+
 /**
  * HEALTH CHECK
  */

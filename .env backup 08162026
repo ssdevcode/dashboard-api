@@ -1,0 +1,5 @@
+DB_SERVER=mydemoss.database.windows.net
+DB_DATABASE=free-sql-db-8340534
+DB_USER=mydemoss
+DB_PASSWORD=David418$
+DB_PORT=1433

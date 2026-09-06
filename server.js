@@ -10,6 +10,11 @@ const PORT = process.env.PORT;
 app.use(cors());
 app.use(express.json());
 
+console.log("SERVER STARTING");
+console.log("DB_SERVER:", process.env.DB_SERVER);
+console.log("DB_DATABASE:", process.env.DB_DATABASE);
+console.log("PORT:", process.env.PORT);
+
 app.get("/", (req, res) => {
   res.send("Dashboard API Running");
 });

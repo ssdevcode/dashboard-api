@@ -18,3 +18,12 @@ Browser:
 http://localhost:3000/api/customers
 
 
+to add updated the github devcodess
+
+git pull origin main --rebase
+
+git push origin main
+
+
+
+===================================

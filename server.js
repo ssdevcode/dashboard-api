@@ -59,7 +59,6 @@ app.get("/api/dashboard/stats", async (req, res) => {
  * GET ALL CUSTOMERS
  */
 
-
 //app.get("/api/customers", async (req, res) => {
   app.get("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/customers", async (req,res)=>{
   try {

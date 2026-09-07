@@ -58,8 +58,6 @@ app.get("/api/dashboard/stats", async (req, res) => {
 /**
  * GET ALL CUSTOMERS
  */
-
-
 //app.get("/api/customers", async (req, res) => {
   app.get("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/customers", async (req,res)=>{
   try {
@@ -99,7 +97,7 @@ app.get("/api/dashboard/stats", async (req, res) => {
  * Example:
  * /api/customers/search?email=david.williams@testmail.com
  */
-  app.get("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/customers/search", async (req, res) => {
+  app.get("/api/customers/search", async (req, res) => {
   try {
     const { email } = req.query;
 
@@ -140,7 +138,7 @@ app.get("/api/dashboard/stats", async (req, res) => {
 /**
  * GET CUSTOMER BY ID
  */
-app.get("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/customers/:id", async (req, res) => {
+app.get("/api/customers/:id", async (req, res) => {
   try {
     const pool = await connectDb();
 
@@ -171,7 +169,7 @@ app.get("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/custom
 /**
  * CREATE CUSTOMER
  */
-app.post("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/customers", async (req, res) => {
+app.post("/api/customers", async (req, res) => {
   const {
     firstName,
     lastName,
@@ -259,7 +257,7 @@ app.post("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/custo
 /**
  * UPDATE CUSTOMER
  */
-app.put("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/customers/:id", async (req, res) => {
+app.put("/api/customers/:id", async (req, res) => {
   const {
     firstName,
     lastName,
@@ -324,7 +322,7 @@ app.put("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/custom
 /**
  * DELETE CUSTOMER
  */
-app.delete("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/customers/:id", async (req, res) => {
+app.delete("/api/customers/:id", async (req, res) => {
   try {
     const pool = await connectDb();
 

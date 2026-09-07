@@ -18,3 +18,8 @@ Browser:
 http://localhost:3000/api/customers
 
 
+to add updated the github devcodess
+
+git push origin main --force-with-lease
+
+===================================

@@ -12,13 +12,6 @@ const config = {
   port: process.env.DB_PORT,
   //port: 1433, // Default port for Azure SQL
  
-/*
-  user: "sqladminss",
-  password: "Elmer1101$",
-  server: "sqldemoss.database.windows.net",
-  database: "demodbss",  
-  port: 1433,
-*/
    options: {
     encrypt: true,
     trustServerCertificate: false

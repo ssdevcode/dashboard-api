@@ -5,7 +5,9 @@ const sql = require("mssql");
 const connectDb = require("./db");
 
 const app = express();
-const PORT = process.env.PORT;
+//const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3001;
+
 
 app.use(cors());
 app.use(express.json());
@@ -24,6 +26,10 @@ app.get("/", (req, res) => {
  */
 app.get("/ping", (req, res) => {
   res.send("pong");
+});
+
+app.get("/", (req, res) => {
+  res.send("Dashboard API Running");
 });
 
 /**
@@ -349,7 +355,7 @@ app.delete("/api/customers/:id", async (req, res) => {
     console.log("✅ Database connected");
   } catch (err) {
     console.error("❌ Database connection failed:", err);
-    process.exit(1);
+    //process.exit(1);
   }
 })();
 

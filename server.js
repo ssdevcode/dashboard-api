@@ -1,13 +1,12 @@
 require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const sql = require("mssql");
 const connectDb = require("./db");
 
 const app = express();
-//const PORT = process.env.PORT;
 const PORT = process.env.PORT || 3001;
-
 
 app.use(cors());
 app.use(express.json());
@@ -15,24 +14,23 @@ app.use(express.json());
 console.log("SERVER STARTING");
 console.log("DB_SERVER:", process.env.DB_SERVER);
 console.log("DB_DATABASE:", process.env.DB_DATABASE);
-console.log("PORT:", process.env.PORT);
+console.log("PORT:", PORT);
 
+/*
+ * ROOT
+ */
 app.get("/", (req, res) => {
   res.send("Dashboard API Running");
 });
 
-/**
+/*
  * HEALTH CHECK
  */
 app.get("/ping", (req, res) => {
   res.send("pong");
 });
 
-app.get("/", (req, res) => {
-  res.send("Dashboard API Running");
-});
-
-/**
+/*
  * DASHBOARD STATS
  */
 app.get("/api/dashboard/stats", async (req, res) => {
@@ -46,21 +44,21 @@ app.get("/api/dashboard/stats", async (req, res) => {
     `);
 
     res.json(result.recordset[0]);
+
   } catch (err) {
-    console.error("❌ STATS ERROR:", err);
+    console.error("STATS ERROR:", err);
 
     res.status(500).json({
       message: "Error fetching dashboard stats",
+      error: err.message
     });
   }
 });
 
-/**
+/*
  * GET ALL CUSTOMERS
  */
-
-//app.get("/api/customers", async (req, res) => {
-  app.get("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/customers", async (req,res)=>{
+app.get("/api/customers", async (req, res) => {
   try {
     const pool = await connectDb();
 
@@ -84,27 +82,30 @@ app.get("/api/dashboard/stats", async (req, res) => {
     `);
 
     res.json(result.recordset);
+
   } catch (err) {
-    console.error("❌ GET CUSTOMERS ERROR:", err);
+    console.error("GET CUSTOMERS ERROR:", err);
 
     res.status(500).json({
       message: "Failed to retrieve customers",
+      error: err.message
     });
   }
 });
 
-/**
+/*
  * SEARCH CUSTOMER BY EMAIL
+ *
  * Example:
  * /api/customers/search?email=david.williams@testmail.com
  */
-  app.get("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/customers/search", async (req, res) => {
+app.get("/api/customers/search", async (req, res) => {
   try {
     const { email } = req.query;
 
     if (!email) {
       return res.status(400).json({
-        message: "Email parameter is required",
+        message: "Email parameter is required"
       });
     }
 
@@ -120,14 +121,14 @@ app.get("/api/dashboard/stats", async (req, res) => {
 
     if (result.recordset.length === 0) {
       return res.status(404).json({
-        message: "Customer not found",
+        message: "Customer not found"
       });
     }
 
     res.json(result.recordset[0]);
 
   } catch (err) {
-    console.error("❌ SEARCH CUSTOMER ERROR:", err);
+    console.error("SEARCH CUSTOMER ERROR:", err);
 
     res.status(500).json({
       message: "Failed to search customer",
@@ -136,10 +137,10 @@ app.get("/api/dashboard/stats", async (req, res) => {
   }
 });
 
-/**
+/*
  * GET CUSTOMER BY ID
  */
-app.get("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/customers/:id", async (req, res) => {
+app.get("/api/customers/:id", async (req, res) => {
   try {
     const pool = await connectDb();
 
@@ -153,24 +154,27 @@ app.get("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/custom
 
     if (result.recordset.length === 0) {
       return res.status(404).json({
-        message: "Customer not found",
+        message: "Customer not found"
       });
     }
 
     res.json(result.recordset[0]);
+
   } catch (err) {
-    console.error("❌ GET CUSTOMER ERROR:", err);
+    console.error("GET CUSTOMER ERROR:", err);
 
     res.status(500).json({
       message: "Failed to retrieve customer",
+      error: err.message
     });
   }
 });
 
-/**
+/*
  * CREATE CUSTOMER
  */
-app.post("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/customers", async (req, res) => {
+app.post("/api/customers", async (req, res) => {
+
   const {
     firstName,
     lastName,
@@ -186,7 +190,7 @@ app.post("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/custo
 
   if (!firstName || !lastName || !email) {
     return res.status(400).json({
-      message: "First name, last name, and email are required",
+      message: "First name, last name and email are required"
     });
   }
 
@@ -236,16 +240,14 @@ app.post("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/custo
         )
       `);
 
-    const customerId = result.recordset[0].CustomerId;
-
     res.status(201).json({
       success: true,
       message: "Customer created successfully",
-      customerId
+      customerId: result.recordset[0].CustomerId
     });
 
   } catch (err) {
-    console.error("❌ CREATE CUSTOMER ERROR:", err);
+    console.error("CREATE CUSTOMER ERROR:", err);
 
     res.status(500).json({
       success: false,
@@ -255,10 +257,11 @@ app.post("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/custo
   }
 });
 
-/**
+/*
  * UPDATE CUSTOMER
  */
-app.put("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/customers/:id", async (req, res) => {
+app.put("/api/customers/:id", async (req, res) => {
+
   const {
     firstName,
     lastName,
@@ -312,18 +315,19 @@ app.put("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/custom
     });
 
   } catch (err) {
-    console.error("❌ UPDATE CUSTOMER ERROR:", err);
+    console.error("UPDATE CUSTOMER ERROR:", err);
 
     res.status(500).json({
-      message: "Failed to update customer"
+      message: "Failed to update customer",
+      error: err.message
     });
   }
 });
 
-/**
+/*
  * DELETE CUSTOMER
  */
-app.delete("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/customers/:id", async (req, res) => {
+app.delete("/api/customers/:id", async (req, res) => {
   try {
     const pool = await connectDb();
 
@@ -340,30 +344,30 @@ app.delete("demoappbackend-ckdbd4grb2bxdpac.eastus2-01.azurewebsites.net/api/cus
     });
 
   } catch (err) {
-    console.error("❌ DELETE CUSTOMER ERROR:", err);
+    console.error("DELETE CUSTOMER ERROR:", err);
 
     res.status(500).json({
-      message: "Failed to delete customer"
+      message: "Failed to delete customer",
+      error: err.message
     });
   }
 });
 
-/**
+/*
  * DATABASE CONNECTION TEST
  */
 (async () => {
   try {
     await connectDb();
-    console.log("✅ Database connected");
+    console.log("Database connected");
   } catch (err) {
-    console.error("❌ Database connection failed:", err);
-    //process.exit(1);
+    console.error("Database connection failed:", err);
   }
 })();
 
-/**
+/*
  * START SERVER
  */
 app.listen(PORT, () => {
-  console.log(`🚀 API running on port ${PORT}`);
+  console.log(`API running on port ${PORT}`);
 });

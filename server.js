@@ -13,7 +13,12 @@ app.use(express.json());
 console.log("SERVER STARTING");
 console.log("DB_SERVER:", process.env.DB_SERVER);
 console.log("DB_DATABASE:", process.env.DB_DATABASE);
-console.log("PORT:", PORT);
+//console.log("PORT:", PORT);
+
+const PORT = process.env.PORT || 8080;
+
+console.log("SERVER STARTING");
+console.log("PORT =", PORT);
 
 /*
  * ROOT
@@ -435,7 +440,7 @@ app.delete("/api/customers/:id", async (req, res) => {
  * START SERVER
  */
 
-const PORT = process.env.PORT || 3001;
+
 app.listen(PORT, () => {
   console.log(`API running on port ${PORT}`);
 });

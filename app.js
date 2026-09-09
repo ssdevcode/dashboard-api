@@ -11,7 +11,6 @@ app.get('/ping', (req, res) => {
   res.send('pong');
 });
 
-//const PORT = process.env.PORT || 3001;
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {

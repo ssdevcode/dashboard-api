@@ -409,6 +409,8 @@ app.delete("/api/customers/:id", async (req, res) => {
 /*
  * START SERVER
  */
+
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`API running on port ${PORT}`);
 });

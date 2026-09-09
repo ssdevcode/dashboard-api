@@ -56,22 +56,13 @@ app.get("/api/dashboard/stats", async (req, res) => {
 });
 
 /*
- * GET CUSTOMERS
- * Examples:
- * /api/customers
- * /api/customers?email=stacysewell@hotmail.com
+ * GET ALL CUSTOMERS
  */
 app.get("/api/customers", async (req, res) => {
   try {
     const pool = await connectDb();
-    const { email } = req.query;
 
-    console.log("CUSTOMERS REQUEST");
-    console.log("EMAIL FILTER:", email);
-
-    const request = pool.request();
-
-    let query = `
+    const result = await pool.request().query(`
       SELECT
         CustomerId,
         FirstName,
@@ -87,25 +78,8 @@ app.get("/api/customers", async (req, res) => {
         DateCreated,
         IsActive
       FROM Customers
-    `;
-
-    if (email) {
-      query += `
-        WHERE Email = @Email
-      `;
-
-      request.input(
-        "Email",
-        sql.NVarChar(255),
-        email
-      );
-    }
-
-    query += `
       ORDER BY CustomerId DESC
-    `;
-
-    const result = await request.query(query);
+    `);
 
     res.json(result.recordset);
 
@@ -121,8 +95,9 @@ app.get("/api/customers", async (req, res) => {
 
 /*
  * SEARCH CUSTOMER BY EMAIL
+ *
  * Example:
- * /api/customers/search?email=stacysewell@hotmail.com
+ * /api/customers/search?email=david.williams@testmail.com
  */
 app.get("/api/customers/search", async (req, res) => {
   try {
@@ -139,20 +114,7 @@ app.get("/api/customers/search", async (req, res) => {
     const result = await pool.request()
       .input("Email", sql.NVarChar(255), email)
       .query(`
-        SELECT
-          CustomerId,
-          FirstName,
-          LastName,
-          Email,
-          PhoneNumber,
-          AddressLine1,
-          AddressLine2,
-          City,
-          StateProvince,
-          PostalCode,
-          Country,
-          DateCreated,
-          IsActive
+        SELECT *
         FROM Customers
         WHERE Email = @Email
       `);
@@ -183,11 +145,7 @@ app.get("/api/customers/:id", async (req, res) => {
     const pool = await connectDb();
 
     const result = await pool.request()
-      .input(
-        "CustomerId",
-        sql.Int,
-        parseInt(req.params.id)
-      )
+      .input("CustomerId", sql.Int, parseInt(req.params.id))
       .query(`
         SELECT *
         FROM Customers

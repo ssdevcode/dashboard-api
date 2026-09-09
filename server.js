@@ -29,6 +29,31 @@ app.get("/ping", (req, res) => {
   res.send("pong");
 });
 
+/* TESTING DB*/
+
+app.get('/api/test-db', async (req, res) => {
+  try {
+    const pool = await connectDb();
+
+    const result = await pool
+      .request()
+      .query('SELECT @@VERSION AS SqlVersion');
+
+    res.json({
+      success: true,
+      data: result.recordset
+    });
+  } catch (err) {
+    console.error('DB TEST ERROR:', err);
+
+    res.status(500).json({
+      success: false,
+      error: err.message,
+      code: err.code
+    });
+  }
+});
+
 /*
  * DASHBOARD STATS
  */

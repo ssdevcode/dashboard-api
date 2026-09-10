@@ -427,6 +427,7 @@ app.delete("/api/customers/:id", async (req, res) => {
 /*
  * DATABASE CONNECTION TEST
  */
+/*
 (async () => {
   try {
     await connectDb();
@@ -435,6 +436,7 @@ app.delete("/api/customers/:id", async (req, res) => {
     console.error("Database connection failed:", err);
   }
 })();
+*/
 
 /*
  * START SERVER

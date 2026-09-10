@@ -1,3 +1,5 @@
+console.log("===== SERVER.JS LOADED =====");
+
 require("dotenv").config();
 
 const express = require("express");
@@ -441,7 +443,9 @@ app.delete("/api/customers/:id", async (req, res) => {
  * START SERVER
  */
 
+console.log("===== ABOUT TO START LISTENER =====");
 
 app.listen(PORT, () => {
+  console.log("===== LISTENER STARTED =====");
   console.log(`API running on port ${PORT}`);
 });

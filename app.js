@@ -2,6 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
+import customerRoutes from './routes/customerRoutes.js';
+
 dotenv.config();
 
 console.log('>>> app.js loaded');
@@ -19,6 +21,8 @@ app.use(express.json());
 app.get('/ping', (req, res) => {
   res.send('pong');
 });
+
+app.use('/api/customers', customerRoutes);
 
 const PORT = process.env.PORT || 3000;
 

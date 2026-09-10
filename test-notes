@@ -27,5 +27,11 @@ git pull origin main --rebase
 
 git push origin main
 
+or 
+
+git add .
+git commit -m "Fix PORT initialization"
+git push origin main
+
 
 

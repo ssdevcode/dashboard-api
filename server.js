@@ -13,7 +13,6 @@ app.use(express.json());
 console.log("SERVER STARTING");
 console.log("DB_SERVER:", process.env.DB_SERVER);
 console.log("DB_DATABASE:", process.env.DB_DATABASE);
-//console.log("PORT:", PORT);
 
 const PORT = process.env.PORT || 8080;
 

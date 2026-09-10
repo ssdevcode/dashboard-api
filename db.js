@@ -6,12 +6,16 @@ const config = {
     server: process.env.DB_SERVER,
     database: process.env.DB_DATABASE,
     //port: 1433,
-   
+   /*
     port: parseInt(process.env.DB_PORT, 10),
          options: {
         encrypt: true,               // REQUIRED for Azure SQL
         trustServerCertificate: false
-
+    */
+    port: Number(process.env.DB_PORT || 1433),
+    options: {
+        encrypt: true,
+        trustServerCertificate: false
     }
 };
 
